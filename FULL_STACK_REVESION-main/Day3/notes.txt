@@ -1,0 +1,52 @@
+| Method               | Example                           | Result       |
+| -------------------- | --------------------------------- | ------------ |
+| `length()`           | `"Java".length()`                 | `4`          |
+| `charAt()`           | `"Java".charAt(1)`                | `a`          |
+| `toUpperCase()`      | `"java".toUpperCase()`            | `JAVA`       |
+| `toLowerCase()`      | `"JAVA".toLowerCase()`            | `java`       |
+| `equals()`           | `"Java".equals("Java")`           | `true`       |
+| `equalsIgnoreCase()` | `"java".equalsIgnoreCase("JAVA")` | `true`       |
+| `contains()`         | `"Java".contains("av")`           | `true`       |
+| `indexOf()`          | `"Java".indexOf('a')`             | `1`          |
+| `lastIndexOf()`      | `"banana".lastIndexOf('a')`       | `5`          |
+| `substring()`        | `"Java".substring(1,3)`           | `av`         |
+| `replace()`          | `"Java".replace('a','o')`         | `Jovo`       |
+| `trim()`             | `" Java ".trim()`                 | `Java`       |
+| `isEmpty()`          | `"".isEmpty()`                    | `true`       |
+| `isBlank()`          | `"  ".isBlank()`                  | `true`       |
+| `startsWith()`       | `"Java".startsWith("Ja")`         | `true`       |
+| `endsWith()`         | `"Java".endsWith("va")`           | `true`       |
+| `split()`            | `"a,b".split(",")`                | `[a, b]`     |
+| `concat()`           | `"Hello".concat(" Java")`         | `Hello Java` |
+
+
+
+1. ArithmeticException
+Definition: Occurs when an arithmetic operation is invalid, 
+such as dividing an integer by zero.
+
+2. NullPointerException
+Definition: Occurs when trying to access a method or property 
+using a reference that contains null.
+
+3. ArrayIndexOutOfBoundsException
+Definition: Occurs when trying to access an array element 
+using an invalid index.
+
+4. StringIndexOutOfBoundsException
+Definition: Occurs when trying to access a character or substring 
+using an invalid String index.
+
+5. NumberFormatException
+Definition: Occurs when trying to convert a String into a number 
+when the String does not contain a valid numeric value.
+
+| Feature        | `throw`                                                      | `throws`                                                                          |
+| -------------- | ------------------------------------------------------------ | --------------------------------------------------------------------------------- |
+| Purpose        | Explicitly throws an exception.                              | Declares exceptions that a method might throw.                                    |
+| Location       | Used inside a method or block.                               | Used in the method or constructor signature.                                      |
+| Syntax         | Followed by an exception object (e.g., `new IOException()`). | Followed by exception class names (e.g., `IOException, SQLException`).            |
+| Count          | Throws one exception at a time.                              | Can declare multiple exceptions separated by commas.                              |
+| Exception Type | Works with both checked and unchecked exceptions.            | Mainly used to declare checked exceptions; can also declare unchecked exceptions. |
+| Keyword Usage  | Used to actually trigger an exception.                       | Used to inform the caller about possible exceptions.                              |
+| Example        | `throw new ArithmeticException("Invalid division");`         | `void readFile() throws IOException { }`                                          |
