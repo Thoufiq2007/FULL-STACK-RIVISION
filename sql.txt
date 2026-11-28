@@ -1,0 +1,396 @@
+
+-- =====================================================
+-- SQL PLACEMENT BATCH HOMEWORK
+-- DATE: 27-11-2026
+-- =====================================================
+
+-- TASK D5T10: ORDER BY AND LIMIT
+-- TASK D5T13: CONSTRAINTS
+-- TASK D5T14: ALTER TABLE
+-- TASK D5T15: AGGREGATE FUNCTIONS
+-- TASK D5T28: SALES ANALYSIS REPORT
+
+-- =====================================================
+-- DATABASE 1: COLLEGE MANAGEMENT
+-- =====================================================
+
+CREATE DATABASE IF NOT EXISTS college_management;
+USE college_management;
+
+-- =====================================================
+-- CREATE STUDENTS TABLE
+-- =====================================================
+
+DROP TABLE IF EXISTS students;
+
+CREATE TABLE students (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    marks INT,
+    age INT,
+    department VARCHAR(30),
+    city VARCHAR(50)
+);
+
+-- INSERT STUDENT RECORDS
+
+INSERT INTO students VALUES
+(1, 'Thoufiq', 95, 21, 'CSE', 'Palamaner'),
+(2, 'Rahul', 85, 20, 'ECE', 'Chittoor'),
+(3, 'Arun', 78, 22, 'CSE', 'Bangalore'),
+(4, 'Kiran', 92, 21, 'IT', 'Chennai'),
+(5, 'Suresh', 65, 23, 'ECE', 'Vellore'),
+(6, 'Mahesh', 88, 20, 'CSE', 'Tirupati'),
+(7, 'Ravi', 72, 22, 'MECH', 'Kadapa'),
+(8, 'Praveen', 90, 21, 'CSE', 'Bangalore'),
+(9, 'Naveen', 80, 23, 'IT', 'Chennai'),
+(10, 'Ajay', 60, 20, 'ECE', 'Palamaner');
+
+SELECT * FROM students;
+
+-- =====================================================
+-- D5T10: ORDER BY AND LIMIT
+-- =====================================================
+
+-- 1. Sort students by name in ascending order
+SELECT * FROM students
+ORDER BY name ASC;
+
+-- 2. Sort students by marks in descending order
+SELECT * FROM students
+ORDER BY marks DESC;
+
+-- 3. Sort students by age in ascending order
+SELECT * FROM students
+ORDER BY age ASC;
+
+-- 4. Sort students by department alphabetically
+SELECT * FROM students
+ORDER BY department ASC;
+
+-- 5. Display the top 3 students based on marks
+SELECT * FROM students
+ORDER BY marks DESC
+LIMIT 3;
+
+-- 6. Display the student with the lowest marks
+SELECT * FROM students
+ORDER BY marks ASC
+LIMIT 1;
+
+-- 7. Display the first 5 student records
+SELECT * FROM students
+LIMIT 5;
+
+-- 8. Display the top 3 CSE students based on marks
+SELECT * FROM students
+WHERE department = 'CSE'
+ORDER BY marks DESC
+LIMIT 3;
+
+-- 9. Sort students by department and marks
+SELECT * FROM students
+ORDER BY department ASC, marks DESC;
+
+-- 10. Display the top 5 students based on marks
+SELECT * FROM students
+ORDER BY marks DESC
+LIMIT 5;
+
+
+-- =====================================================
+-- D5T13: SQL CONSTRAINTS
+-- =====================================================
+
+-- CREATE DEPARTMENTS TABLE
+
+DROP TABLE IF EXISTS employees;
+DROP TABLE IF EXISTS departments;
+
+CREATE TABLE departments (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(50) NOT NULL UNIQUE
+);
+
+INSERT INTO departments VALUES
+(1, 'CSE'),
+(2, 'ECE'),
+(3, 'IT'),
+(4, 'MECH');
+
+-- CREATE EMPLOYEES TABLE WITH CONSTRAINTS
+
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,
+    employee_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    age INT CHECK (age >= 18),
+    salary DECIMAL(10,2) DEFAULT 15000,
+    department_id INT,
+    FOREIGN KEY (department_id)
+    REFERENCES departments(department_id)
+);
+
+-- INSERT VALID RECORDS
+
+INSERT INTO employees VALUES
+(101, 'Rahul', 'rahul@gmail.com', 25, 25000, 1),
+(102, 'Arun', 'arun@gmail.com', 23, 30000, 2),
+(103, 'Kiran', 'kiran@gmail.com', 28, DEFAULT, 3);
+
+-- DISPLAY EMPLOYEE RECORDS
+
+SELECT * FROM employees;
+
+-- DISPLAY DEPARTMENT RECORDS
+
+SELECT * FROM departments;
+
+-- CONSTRAINT TEST QUERIES
+-- Execute these separately to test constraint errors.
+-- They are commented out to allow the complete script
+-- to execute without stopping.
+
+-- Duplicate primary key
+-- INSERT INTO employees VALUES
+-- (101, 'Test', 'test@gmail.com', 25, 20000, 1);
+
+-- Duplicate email
+-- INSERT INTO employees VALUES
+-- (104, 'Test', 'rahul@gmail.com', 25, 20000, 1);
+
+-- NULL employee name
+-- INSERT INTO employees VALUES
+-- (105, NULL, 'new@gmail.com', 25, 20000, 1);
+
+-- Age below 18
+-- INSERT INTO employees VALUES
+-- (106, 'Student', 'student@gmail.com', 16, 10000, 1);
+
+-- Invalid department ID
+-- INSERT INTO employees VALUES
+-- (107, 'Person', 'person@gmail.com', 25, 20000, 10);
+
+
+-- =====================================================
+-- D5T14: ALTER TABLE
+-- =====================================================
+
+-- 1. Add email column to students table
+
+ALTER TABLE students
+ADD COLUMN email VARCHAR(100);
+
+-- 2. Add phone_number column
+
+ALTER TABLE students
+ADD COLUMN phone_number VARCHAR(15);
+
+-- 3. Modify name column
+
+ALTER TABLE students
+MODIFY COLUMN name VARCHAR(100);
+
+-- 4. Modify marks column
+
+ALTER TABLE students
+MODIFY COLUMN marks DECIMAL(5,2);
+
+-- 5. Rename city column to student_city
+
+ALTER TABLE students
+RENAME COLUMN city TO student_city;
+
+-- 6. Drop phone_number column
+
+ALTER TABLE students
+DROP COLUMN phone_number;
+
+-- 7. Rename students table to college_students
+
+ALTER TABLE students
+RENAME TO college_students;
+
+-- 8. Rename college_students back to students
+
+ALTER TABLE college_students
+RENAME TO students;
+
+-- DISPLAY MODIFIED TABLE STRUCTURE
+
+DESC students;
+
+-- DISPLAY MODIFIED RECORDS
+
+SELECT * FROM students;
+
+
+-- =====================================================
+-- D5T15: AGGREGATE FUNCTIONS
+-- =====================================================
+
+-- 1. COUNT: Total number of students
+
+SELECT COUNT(*) AS total_students
+FROM students;
+
+-- 2. SUM: Total marks of students
+
+SELECT SUM(marks) AS total_marks
+FROM students;
+
+-- 3. AVG: Average marks of students
+
+SELECT AVG(marks) AS average_marks
+FROM students;
+
+-- 4. MAX: Highest marks
+
+SELECT MAX(marks) AS highest_marks
+FROM students;
+
+-- 5. MIN: Lowest marks
+
+SELECT MIN(marks) AS lowest_marks
+FROM students;
+
+-- 6. Count students in each department
+
+SELECT department, COUNT(*) AS total_students
+FROM students
+GROUP BY department;
+
+-- 7. Average marks in each department
+
+SELECT department, AVG(marks) AS average_marks
+FROM students
+GROUP BY department;
+
+-- 8. Maximum marks in each department
+
+SELECT department, MAX(marks) AS highest_marks
+FROM students
+GROUP BY department;
+
+-- 9. Minimum marks in each department
+
+SELECT department, MIN(marks) AS lowest_marks
+FROM students
+GROUP BY department;
+
+-- 10. Departments having average marks greater than 75
+
+SELECT department, AVG(marks) AS average_marks
+FROM students
+GROUP BY department
+HAVING AVG(marks) > 75;
+
+
+-- =====================================================
+-- DATABASE 2: SALES MANAGEMENT
+-- =====================================================
+
+CREATE DATABASE IF NOT EXISTS sales_management;
+USE sales_management;
+
+-- =====================================================
+-- D5T28: SALES ANALYSIS REPORT
+-- =====================================================
+
+-- CREATE SALES TABLE
+
+DROP TABLE IF EXISTS sales;
+
+CREATE TABLE sales (
+    sale_id INT PRIMARY KEY,
+    product_name VARCHAR(100),
+    category VARCHAR(50),
+    quantity INT,
+    price DECIMAL(10,2),
+    sale_date DATE
+);
+
+-- INSERT 15 SALES RECORDS
+
+INSERT INTO sales VALUES
+(1, 'Laptop', 'Electronics', 2, 45000, '2026-01-01'),
+(2, 'Mobile', 'Electronics', 5, 15000, '2026-01-02'),
+(3, 'Keyboard', 'Accessories', 10, 800, '2026-01-03'),
+(4, 'Mouse', 'Accessories', 15, 500, '2026-01-04'),
+(5, 'Monitor', 'Electronics', 3, 12000, '2026-01-05'),
+(6, 'Chair', 'Furniture', 4, 5000, '2026-01-06'),
+(7, 'Table', 'Furniture', 2, 8000, '2026-01-07'),
+(8, 'Headphones', 'Accessories', 8, 2000, '2026-01-08'),
+(9, 'Printer', 'Electronics', 2, 10000, '2026-01-09'),
+(10, 'Desk', 'Furniture', 3, 7000, '2026-01-10'),
+(11, 'Tablet', 'Electronics', 4, 20000, '2026-01-11'),
+(12, 'USB Cable', 'Accessories', 20, 300, '2026-01-12'),
+(13, 'Sofa', 'Furniture', 1, 25000, '2026-01-13'),
+(14, 'Smart Watch', 'Electronics', 3, 5000, '2026-01-14'),
+(15, 'Webcam', 'Accessories', 6, 1500, '2026-01-15');
+
+-- DISPLAY ALL SALES RECORDS
+
+SELECT * FROM sales;
+
+-- 1. COUNT: Total number of sales
+
+SELECT COUNT(*) AS total_sales
+FROM sales;
+
+-- 2. SUM: Total sales quantity
+
+SELECT SUM(quantity) AS total_quantity
+FROM sales;
+
+-- 3. AVG: Average product price
+
+SELECT AVG(price) AS average_price
+FROM sales;
+
+-- 4. MAX: Highest product price
+
+SELECT MAX(price) AS highest_price
+FROM sales;
+
+-- 5. MIN: Lowest product price
+
+SELECT MIN(price) AS lowest_price
+FROM sales;
+
+-- 6. Total quantity sold in each category
+
+SELECT category, SUM(quantity) AS total_quantity
+FROM sales
+GROUP BY category;
+
+-- 7. Total revenue in each category
+
+SELECT category,
+SUM(quantity * price) AS total_revenue
+FROM sales
+GROUP BY category;
+
+-- 8. Number of products in each category
+
+SELECT category, COUNT(*) AS total_products
+FROM sales
+GROUP BY category;
+
+-- 9. Average price in each category
+
+SELECT category, AVG(price) AS average_price
+FROM sales
+GROUP BY category;
+
+-- 10. Categories having total revenue greater than 50000
+
+SELECT category,
+SUM(quantity * price) AS total_revenue
+FROM sales
+GROUP BY category
+HAVING SUM(quantity * price) > 50000;
+
+-- =====================================================
+-- END OF ALL SQL HOMEWORK
+-- =====================================================
